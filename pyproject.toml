@@ -1,9 +1,11 @@
 [project]
-name = "bankruptcy-prediction"
+name = "HR-Employee-Attrition-prediction"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "mlflow>=3.14.0",
+    "seaborn>=0.13.2",
+    "xgboost>=3.3.0",
 ]
