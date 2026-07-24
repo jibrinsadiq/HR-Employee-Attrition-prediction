@@ -1,0 +1,48 @@
+Project 1: Employee Attrition Risk & Segmentation
+
+Primary task: Classification
+Dataset: IBM HR Analytics Employee Attrition & Performance (Kaggle)
+
+Problem Statement: Predict whether an employee is likely to leave, and segment employees into behavioral personas so the prediction is actionable for HR rather than just a probability.
+
+Deliverables:
+
+EDA + preprocessing (encoding, scaling, train/test split)
+Classification models — Logistic Regression, Random Forest, XGBoost — tuned (Grid/Random Search), tracked in MLflow, evaluated on precision/recall/F1 (justify the priority metric for attrition)
+Clustering on tenure, satisfaction, income, overtime, work-life balance — K-Means + 2 others, compared on silhouette score, into named personas (e.g. "flight-risk newcomers," "stable veterans")
+FastAPI: POST /predict (attrition risk) and GET /segment (persona)
+Docker + Streamlit: input an employee profile → risk score + persona + a suggested retention action per persona
+
+
+Project 2: Customer Spend Prediction & Segmentation
+
+Primary task: Regression
+Dataset: Customer Personality Analysis (Kaggle)
+
+Problem Statement: Predict a customer's total spending, and segment customers by purchase behavior so the prediction feeds directly into a marketing persona.
+
+Deliverables:
+
+EDA + preprocessing (handle missing income values, encode categoricals, scale)
+Regression models — Ridge/Lasso, Random Forest Regressor, XGBoost Regressor — tuned, tracked in MLflow, evaluated on MAE/RMSE/R²
+Clustering on spend-per-category, campaign response, recency, income — K-Means + 2 others, compared on silhouette score, into named personas (e.g. "high-value loyalists," "at-risk low spenders")
+FastAPI: POST /predict (predicted spend) and GET /segment (persona)
+Docker + Streamlit: input a customer profile → predicted spend + persona + suggested campaign
+
+
+Project 3: Credit Card Customer Segmentation
+
+Primary task: Clustering
+Dataset: Credit Card Dataset for Clustering (Kaggle, ~8,950 customers, 18 behavioral features)
+
+Problem Statement: A bank wants to understand its cardholders well enough to target them with different products — with no predefined labels. Segment customers purely from usage patterns (balance, purchases, cash advance, credit limit, payment ratio, tenure).
+
+Deliverables:
+
+EDA + preprocessing (scaling is essential — every algorithm here is distance-based)
+Run K-Means, Hierarchical Clustering, and DBSCAN (GMM optional as a 4th) on the same features — each tuned properly (K-Means: elbow + silhouette; Hierarchical: dendrogram cut; DBSCAN: k-distance plot for eps/min_samples)
+Compare all algorithms in one table (silhouette score, Davies-Bouldin index); visualize each on the same PCA and t-SNE 2D projection
+Pick a winner and justify it — not necessarily the highest silhouette score alone (e.g. DBSCAN's noise points might be the more useful business insight)
+MLflow: track every algorithm × parameter combination as its own run; register the winning model
+FastAPI: POST /segment, backed by the winning algorithm
+Docker + Streamlit: input a customer profile → segment + plain-English persona description + position on the 2D PCA plot relative to other segments, plus a short "why this algorithm won" note
