@@ -7,8 +7,12 @@ services:
       - "8000:8000"
     environment:
       MODEL_DIR: /workspace/artifacts
+      MLFLOW_TRACKING_URI: http://mlflow:5000
     volumes:
       - ./artifacts:/workspace/artifacts:ro
+    depends_on:
+      mlflow:
+        condition: service_healthy
     healthcheck:
       test:
         [
@@ -29,6 +33,41 @@ services:
       - "8501:8501"
     environment:
       API_BASE_URL: http://backend:8000
+      MLFLOW_UI_URL: http://localhost:5000
     depends_on:
       backend:
         condition: service_healthy
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v3.14.0
+    ports:
+      - "5000:5000"
+    command:
+      [
+        "mlflow",
+        "server",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "5000",
+        "--backend-store-uri",
+        "sqlite:////mlflow-data/mlflow.db",
+        "--artifacts-destination",
+        "/mlflow-artifacts",
+        "--allowed-hosts",
+        "localhost:*,127.0.0.1:*,mlflow:*"
+      ]
+    volumes:
+      - ./docker/mlflow/data:/mlflow-data
+      - ./docker/mlflow/artifacts:/mlflow-artifacts
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:5000/version')"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5

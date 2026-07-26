@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 
@@ -13,8 +14,17 @@ DEFAULT_DATA_PATH = (
 DEFAULT_ARTIFACT_DIR = PROJECT_ROOT / "artifacts"
 DEFAULT_REPORT_DIR = PROJECT_ROOT / "reports"
 
-DEFAULT_MLFLOW_DB_PATH = PROJECT_ROOT / "mlflow_attrition.db"
-DEFAULT_MLFLOW_TRACKING_URI = (
+DEFAULT_MLFLOW_DB_PATH = (
+    PROJECT_ROOT / "mlflow_attrition.db"
+)
+
+LOCAL_MLFLOW_TRACKING_URI = (
     f"sqlite:///{DEFAULT_MLFLOW_DB_PATH.as_posix()}"
 )
+
+DEFAULT_MLFLOW_TRACKING_URI = os.getenv(
+    "MLFLOW_TRACKING_URI",
+    LOCAL_MLFLOW_TRACKING_URI,
+)
+
 DEFAULT_MLFLOW_EXPERIMENT = "attrition"
