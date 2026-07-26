@@ -1,0 +1,11 @@
+                          Run_ID                    Run_Name                  Model  Accuracy  Precision  Recall  F1_Score  ROC_AUC   Status                       Start_Time
+5b4f943ba0bd4cefb33ea0dfa238a309 xgboost_random_search_tuned          XGBClassifier    0.8435     0.5185  0.2979    0.3784   0.7962 FINISHED 2026-07-26 05:11:31.397000+00:00
+5134f36fb1c54d3099a40ec64e463dd8               random_forest RandomForestClassifier    0.8299     0.4444  0.2553    0.3243   0.7969 FINISHED 2026-07-26 05:10:06.833000+00:00
+0196e7442aea498c9d8fae749b95c95e         logistic_regression     LogisticRegression    0.7857     0.4024  0.7021    0.5116   0.7916 FINISHED 2026-07-26 05:09:49.627000+00:00
+5db8ee561938425390bca7aa4f162f73 xgboost_random_search_tuned          XGBClassifier    0.8435     0.5185  0.2979    0.3784   0.7962 FINISHED 2026-07-25 06:00:20.238000+00:00
+096cc0096a6e4959a5920aeef9535743 xgboost_random_search_tuned          XGBClassifier    0.8435     0.5185  0.2979    0.3784   0.7962 FINISHED 2026-07-25 05:43:41.220000+00:00
+bc6db03054e049cfa85e1728657e9b3e xgboost_random_search_tuned          XGBClassifier    0.8435     0.5185  0.2979    0.3784   0.7962 FINISHED 2026-07-25 05:42:57.479000+00:00
+a35bc9830b0744629b9369017b7e4200               random_forest RandomForestClassifier    0.8299     0.4444  0.2553    0.3243   0.7969 FINISHED 2026-07-25 05:26:46.083000+00:00
+fc4629f07b134cf19c4baacf1d922940         logistic_regression     LogisticRegression    0.7857     0.4024  0.7021    0.5116   0.7916 FINISHED 2026-07-25 05:10:44.999000+00:00
+99a5892390324198a0eb5fb8631f532d         logistic_regression     LogisticRegression    0.7857     0.4024  0.7021    0.5116   0.7916   FAILED 2026-07-25 05:05:59.838000+00:00
+1ca21141be40440aa50f3a50a8620f4d         logistic_regression                   None       NaN        NaN     NaN       NaN      NaN   FAILED 2026-07-24 17:45:08.267000+00:00

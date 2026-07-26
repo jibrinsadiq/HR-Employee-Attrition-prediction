@@ -1,0 +1,72 @@
+artifact_path: file:c:/Users/Jibri_rie4meo/Desktop/Trainings/Week4Assignment/HR-Employee-Attrition-prediction/mlruns/1/models/m-2fe00b7ba3a54226b3761e0ae3790bb7/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.14
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.9.0
+    skops_trusted_types: null
+is_signature_from_type_hint: false
+mlflow_version: 3.14.0
+model_id: m-2fe00b7ba3a54226b3761e0ae3790bb7
+model_size_bytes: 293068
+model_uuid: m-2fe00b7ba3a54226b3761e0ae3790bb7
+prompts: null
+run_id: 5b4f943ba0bd4cefb33ea0dfa238a309
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "long", "name": "Age", "required": true}, {"type": "long", "name":
+    "DailyRate", "required": true}, {"type": "long", "name": "DistanceFromHome", "required":
+    true}, {"type": "long", "name": "Education", "required": true}, {"type": "long",
+    "name": "EnvironmentSatisfaction", "required": true}, {"type": "long", "name":
+    "HourlyRate", "required": true}, {"type": "long", "name": "JobInvolvement", "required":
+    true}, {"type": "long", "name": "JobLevel", "required": true}, {"type": "long",
+    "name": "JobSatisfaction", "required": true}, {"type": "long", "name": "MonthlyIncome",
+    "required": true}, {"type": "long", "name": "MonthlyRate", "required": true},
+    {"type": "long", "name": "NumCompaniesWorked", "required": true}, {"type": "long",
+    "name": "PercentSalaryHike", "required": true}, {"type": "long", "name": "PerformanceRating",
+    "required": true}, {"type": "long", "name": "RelationshipSatisfaction", "required":
+    true}, {"type": "long", "name": "StockOptionLevel", "required": true}, {"type":
+    "long", "name": "TotalWorkingYears", "required": true}, {"type": "long", "name":
+    "TrainingTimesLastYear", "required": true}, {"type": "long", "name": "WorkLifeBalance",
+    "required": true}, {"type": "long", "name": "YearsAtCompany", "required": true},
+    {"type": "long", "name": "YearsInCurrentRole", "required": true}, {"type": "long",
+    "name": "YearsSinceLastPromotion", "required": true}, {"type": "long", "name":
+    "YearsWithCurrManager", "required": true}, {"type": "long", "name": "BusinessTravel_encoded",
+    "required": true}, {"type": "long", "name": "Gender_encoded", "required": true},
+    {"type": "long", "name": "OverTime_encoded", "required": true}, {"type": "long",
+    "name": "MaritalStatus_Divorced", "required": true}, {"type": "long", "name":
+    "MaritalStatus_Married", "required": true}, {"type": "long", "name": "MaritalStatus_Single",
+    "required": true}, {"type": "long", "name": "JobRole_Healthcare Representative",
+    "required": true}, {"type": "long", "name": "JobRole_Human Resources", "required":
+    true}, {"type": "long", "name": "JobRole_Laboratory Technician", "required": true},
+    {"type": "long", "name": "JobRole_Manager", "required": true}, {"type": "long",
+    "name": "JobRole_Manufacturing Director", "required": true}, {"type": "long",
+    "name": "JobRole_Research Director", "required": true}, {"type": "long", "name":
+    "JobRole_Research Scientist", "required": true}, {"type": "long", "name": "JobRole_Sales
+    Executive", "required": true}, {"type": "long", "name": "JobRole_Sales Representative",
+    "required": true}, {"type": "long", "name": "Department_Human Resources", "required":
+    true}, {"type": "long", "name": "Department_Research & Development", "required":
+    true}, {"type": "long", "name": "Department_Sales", "required": true}, {"type":
+    "long", "name": "EducationField_Human Resources", "required": true}, {"type":
+    "long", "name": "EducationField_Life Sciences", "required": true}, {"type": "long",
+    "name": "EducationField_Marketing", "required": true}, {"type": "long", "name":
+    "EducationField_Medical", "required": true}, {"type": "long", "name": "EducationField_Other",
+    "required": true}, {"type": "long", "name": "EducationField_Technical Degree",
+    "required": true}]'
+  outputs: '[{"type": "long", "required": true}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2026-07-26 05:11:31.596766'
