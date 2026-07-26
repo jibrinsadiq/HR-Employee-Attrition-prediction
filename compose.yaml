@@ -1,8 +1,8 @@
 services:
-  api:
+  backend:
     build:
       context: .
-      dockerfile: Dockerfile.api
+      dockerfile: Dockerfile.backend
     ports:
       - "8000:8000"
     environment:
@@ -21,14 +21,14 @@ services:
       timeout: 5s
       retries: 5
 
-  streamlit:
+  frontend:
     build:
       context: .
-      dockerfile: Dockerfile.streamlit
+      dockerfile: Dockerfile.frontend
     ports:
       - "8501:8501"
     environment:
-      API_BASE_URL: http://api:8000
+      API_BASE_URL: http://backend:8000
     depends_on:
-      api:
+      backend:
         condition: service_healthy
