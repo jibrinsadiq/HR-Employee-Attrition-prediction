@@ -1,0 +1,21 @@
+FROM python:3.13-slim
+
+WORKDIR /workspace
+
+COPY requirements-app.txt .
+RUN pip install --no-cache-dir -r requirements-app.txt
+
+COPY app ./app
+COPY artifacts ./artifacts
+
+ENV MODEL_DIR=/workspace/artifacts
+EXPOSE 8000
+
+CMD [
+  "uvicorn",
+  "app.api.main:app",
+  "--host",
+  "0.0.0.0",
+  "--port",
+  "8000"
+]
