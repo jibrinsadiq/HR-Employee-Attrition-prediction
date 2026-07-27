@@ -10,6 +10,16 @@ API_BASE_URL = os.getenv(
 ).rstrip("/")
 
 
+def risk_class(band: str) -> str:
+    """Map an API risk-band string to a CSS modifier class."""
+    band_lower = (band or "").lower()
+    if "high" in band_lower:
+        return "risk-high"
+    if "med" in band_lower:
+        return "risk-medium"
+    return "risk-low"
+
+
 st.set_page_config(
     page_title="HR Attrition Intelligence",
     page_icon="👥",
@@ -21,117 +31,211 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-        .block-container {
-            max-width: 1550px;
-            padding-top: 0.45rem;
-            padding-bottom: 0.35rem;
-            padding-left: 1rem;
-            padding-right: 1rem;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Sans:wght@600;700&display=swap');
+
+        html, body, [class*="css"] {
+            font-family: 'Inter', sans-serif;
         }
 
-        h1 {
-            font-size: 1.55rem !important;
-            margin: 0 0 0.05rem 0 !important;
+        .stApp {
+            background-color: #F6F7F9;
+        }
+
+        .block-container {
+            max-width: 1550px;
+            padding-top: 1.1rem;
+            padding-bottom: 1rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        /* Custom header (replaces st.title/st.caption) */
+        .app-header {
+            padding-bottom: 0.9rem;
+            margin-bottom: 1.1rem;
+            border-bottom: 1px solid #E3E7ED;
+        }
+        .app-header-title {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #1B2430;
+            letter-spacing: -0.01em;
+        }
+        .app-header-caption {
+            font-size: 0.92rem;
+            color: #5D6B82;
+            margin-top: 0.25rem;
         }
 
         h2, h3 {
-            font-size: 1rem !important;
-            margin-top: 0.2rem !important;
-            margin-bottom: 0.2rem !important;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 1.05rem !important;
+            font-weight: 600 !important;
+            color: #1B2430;
+            margin-top: 0.3rem !important;
+            margin-bottom: 0.5rem !important;
         }
 
         [data-testid="stCaptionContainer"] {
-            margin-bottom: 0.15rem;
+            color: #5D6B82;
+            margin-bottom: 0.3rem;
         }
 
         [data-testid="stVerticalBlock"] {
-            gap: 0.28rem;
+            gap: 0.4rem;
         }
 
         [data-testid="stHorizontalBlock"] {
-            gap: 0.45rem;
+            gap: 0.6rem;
         }
 
         [data-testid="stWidgetLabel"] p {
-            font-size: 0.76rem;
-            margin-bottom: 0.02rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #3D4A5E;
+            margin-bottom: 0.1rem;
         }
 
         div[data-baseweb="select"] > div,
         div[data-testid="stNumberInput"] input {
-            min-height: 1.9rem;
-            height: 1.9rem;
-            font-size: 0.8rem;
+            min-height: 2.1rem;
+            height: 2.1rem;
+            font-size: 0.85rem;
+            border-radius: 0.4rem;
+            border-color: #D7DCE3 !important;
         }
 
         div[data-testid="stSlider"] {
-            padding-top: 0;
-            padding-bottom: 0;
+            padding-top: 0.15rem;
+            padding-bottom: 0.15rem;
         }
 
-        div[data-testid="stMetric"] {
-            padding: 0.4rem 0.5rem;
-            border: 1px solid rgba(128, 128, 128, 0.25);
-            border-radius: 0.5rem;
-        }
-
-        div[data-testid="stMetricLabel"] {
-            font-size: 0.72rem;
-        }
-
-        div[data-testid="stMetricValue"] {
-            font-size: 1.25rem;
+        /* Form as a card */
+        div[data-testid="stForm"] {
+            background: #FFFFFF;
+            border: 1px solid #E3E7ED;
+            border-radius: 0.75rem;
+            padding: 1.1rem 1.2rem 0.9rem 1.2rem;
+            box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
         }
 
         button[data-baseweb="tab"] {
-            height: 2rem;
-            padding-top: 0.2rem;
-            padding-bottom: 0.2rem;
+            height: 2.2rem;
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem;
+            font-weight: 600;
+            font-size: 0.85rem;
         }
 
         [data-testid="stFormSubmitButton"] > button {
-            height: 2.15rem;
+            height: 2.4rem;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            background-color: #2E5077;
+            color: #FFFFFF;
+            border: none;
+            margin-top: 0.6rem;
+        }
+        [data-testid="stFormSubmitButton"] > button:hover {
+            background-color: #24405F;
+            color: #FFFFFF;
+        }
+
+        div[data-testid="stMetric"] {
+            padding: 0.6rem 0.7rem;
+            background: #FFFFFF;
+            border: 1px solid #E3E7ED;
+            border-radius: 0.6rem;
+        }
+
+        div[data-testid="stMetricLabel"] {
+            font-size: 0.74rem;
+            color: #5D6B82;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        div[data-testid="stMetricValue"] {
+            font-size: 1.3rem;
             font-weight: 700;
+            color: #1B2430;
         }
 
         .result-card {
-            padding: 0.65rem;
-            border: 1px solid rgba(128, 128, 128, 0.28);
-            border-radius: 0.6rem;
-            margin-bottom: 0.35rem;
+            background: #FFFFFF;
+            padding: 0.9rem 1rem;
+            border: 1px solid #E3E7ED;
+            border-left: 4px solid #2E5077;
+            border-radius: 0.5rem;
+            margin-bottom: 0.55rem;
+            box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
         }
+        .result-card.risk-high { border-left-color: #DC2626; }
+        .result-card.risk-medium { border-left-color: #D97706; }
+        .result-card.risk-low { border-left-color: #16A34A; }
 
         .result-heading {
-            font-size: 0.78rem;
-            font-weight: 700;
-            opacity: 0.8;
-            margin-bottom: 0.12rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #5D6B82;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 0.3rem;
         }
 
         .result-value {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 700;
+            color: #1B2430;
             margin-bottom: 0.15rem;
         }
 
-        .small-note {
-            font-size: 0.72rem;
-            opacity: 0.72;
+        .risk-score-value {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #1B2430;
+            line-height: 1.1;
+            margin-bottom: 0.4rem;
         }
 
-        footer {
-            visibility: hidden;
+        .risk-badge {
+            display: inline-block;
+            padding: 0.22rem 0.7rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
         }
+        .risk-badge.risk-high { background: #FEE2E2; color: #B91C1C; }
+        .risk-badge.risk-medium { background: #FEF3C7; color: #B45309; }
+        .risk-badge.risk-low { background: #DCFCE7; color: #15803D; }
+
+        .small-note {
+            font-size: 0.72rem;
+            color: #7C8698;
+            margin-top: 0.6rem;
+        }
+
+        footer { visibility: hidden; }
+        #MainMenu { visibility: hidden; }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
 
-st.title("HR Attrition Risk & Persona Assessment")
-st.caption(
-    "Enter an employee profile to generate an attrition risk score, "
-    "employee persona, and suggested retention action."
+st.markdown(
+    """
+    <div class="app-header">
+        <div class="app-header-title">HR Attrition Risk &amp; Persona Assessment</div>
+        <div class="app-header-caption">
+            Enter an employee profile to generate an attrition risk score,
+            employee persona, and suggested retention action.
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
 )
 
 with st.expander("❓ Help / How to use", expanded=False):
@@ -549,29 +653,25 @@ with result_column:
     result = st.session_state.assessment_result
 
     if result:
-        metric1, metric2 = st.columns(2)
-
-        with metric1:
-            st.metric(
-                "Attrition risk score",
-                f"{result['risk_score'] * 100:.1f}%",
-            )
-
-        with metric2:
-            st.metric(
-                "Risk band",
-                result["risk_band"],
-            )
+        band = result["risk_band"]
+        css_class = risk_class(band)
 
         prediction_text = (
-            "At risk"
-            if result["prediction"] == 1
-            else "Lower risk"
+            "At risk" if result["prediction"] == 1 else "Lower risk"
         )
 
-        st.metric(
-            "Prediction",
-            prediction_text,
+        st.markdown(
+            f"""
+            <div class="result-card {css_class}">
+                <div class="result-heading">Attrition risk score</div>
+                <div class="risk-score-value">{result['risk_score'] * 100:.1f}%</div>
+                <span class="risk-badge {css_class}">{band}</span>
+                <span style="margin-left:0.5rem; font-size:0.8rem; color:#5D6B82;">
+                    {prediction_text}
+                </span>
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
 
         st.progress(
